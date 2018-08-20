@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person' 
+import UserOutput from './UserOutput/UserOutput' 
+import UserInput from './UserInput/UserInput'
 
 class App extends Component {
   state = {
@@ -8,7 +10,8 @@ class App extends Component {
       {name:"navjot", age: 29},
       {name: "yoyo", age:21},
       {name: "snoop", age:4}
-    ]
+    ],
+    userName:"navjo7"
   }
   switchNameHandler = (newName)=>{
     console.log("inside switch handler")
@@ -46,10 +49,56 @@ class App extends Component {
       ]
     })
   }
+
+  
+  userNameChangedHandler = (userName)=>{
+    this.setState({
+      persons: [{
+            name: "navjot",
+            age: 29
+          },
+          {
+            name: "yoyo",
+            age: 21
+          },
+          {
+            name: "snoop",
+            age: 4
+          }
+        ],
+        userName: userName
+    })
+  }
+
+  userInputHandler = (event) => {
+    this.setState({
+      persons: [{
+          name: "navjot",
+          age: 29
+        },
+        {
+          name: "yoyo",
+          age: 21
+        },
+        {
+          name: "snoop",
+          age: 4
+        }
+      ],
+      userName: event.target.value
+    })
+  }
   render() {
 
     const style = {
       backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    }
+    const outputStyle = {
+      backgroundColor: 'green',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
@@ -78,6 +127,16 @@ class App extends Component {
         <Person 
           name = {this.state.persons[2].name} 
           age = {this.state.persons[2].age}
+        />
+        <UserOutput
+        style = {outputStyle}
+           username = {this.state.userName} 
+           click = {this.userNameChangedHandler.bind(this,"navjotTheLegend")}/>
+        <UserOutput 
+          username = {this.state.userName}
+          click = {this.userNameChangedHandler.bind(this,"haha user")}/>
+        <UserInput userName = {this.state.userName}
+        change = {this.userInputHandler}
         />
       </div>
     )
