@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person' 
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
 // import UserOutput from './UserOutput/UserOutput' 
 // import UserInput from './UserInput/UserInput'
 
@@ -42,53 +43,47 @@ class App extends Component {
   }
   render() {
 
-    const style = {
-      backgroundColor: 'green',
-      color:'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-    }
-
     let persons = null
-
+    let btnClass = ''
     if(this.state.showPersons){
 
       persons = (
         <div>
           {
             this.state.persons.map((person,index)=>{
-              return <Person 
-                click = {this.deletePersonHandler.bind(this,index)}
-                name = {person.name}
-                age = {person.age}
-                key = {person.id}
-                changed = {(event)=>{
-                  this.nameChangedHandler(event,person.id)
-                }}
+              return <ErrorBoundary> 
+                <Person
+                  click = {this.deletePersonHandler.bind(this,index)}
+                  name = {person.name}
+                  age = {person.age}
+                  key = {person.id}
+                  changed = {(event)=>{
+                    this.nameChangedHandler(event,person.id)
+                  }}
+                  
                 />
+                </ErrorBoundary>
             })
           }
         </div>
       )
-      style.backgroundColor = "red"
+
+      btnClass = classes.Red
     }
 
-    let classes = []
+    let assignedClasses = []
     if(this.state.persons.length <=2){
-      classes.push('red')
+      assignedClasses.push(classes.red)
     }
     if (this.state.persons.length <= 1) {
-      classes.push('bold')
+      assignedClasses.push(classes.bold)
     }
     return (
-        <div className="App">
+      <div className={classes.App}>
         <h1> hi , how are you</h1>
-        <p className={classes.join(' ')}> this a paragraph</p>
+        <p className={assignedClasses.join(' ')}> this a paragraph</p>
         
-        <button 
-          style = {style}
+        <button  className={btnClass}
           onClick = {this.togglePersonHandler}>Toggle Name
         </button>
         {persons}
