@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person' 
+import Radium,{StyleRoot} from 'radium'
 // import UserOutput from './UserOutput/UserOutput' 
 // import UserInput from './UserInput/UserInput'
 
@@ -43,16 +44,22 @@ class App extends Component {
   render() {
 
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color:'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color:'black'
+      }
     }
 
     let persons = null
 
     if(this.state.showPersons){
+
       persons = (
         <div>
           {
@@ -70,12 +77,25 @@ class App extends Component {
           }
         </div>
       )
+      style.backgroundColor = "red"
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      }
     }
 
+    let classes = []
+    if(this.state.persons.length <=2){
+      classes.push('red')
+    }
+    if (this.state.persons.length <= 1) {
+      classes.push('bold')
+    }
     return (
-      <div className="App">
+      <StyleRoot>
+        <div className="App">
         <h1> hi , how are you</h1>
-        <p> this a paragraph</p>
+        <p className={classes.join(' ')}> this a paragraph</p>
         
         <button 
           style = {style}
@@ -83,11 +103,11 @@ class App extends Component {
         </button>
         {persons}
       </div>
-        
+      </StyleRoot>
     )
 
     // return React.createElement('div',{className: 'App'},React.createElement('h1',null,'it works now'))
   }
 }
 
-export default App;
+export default Radium(App);
